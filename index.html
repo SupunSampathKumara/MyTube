@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTube | Premium Ad-Free Social Video Downloader</title>
+    <meta name="description" content="Download videos from YouTube, TikTok, Instagram, and Facebook in high-quality MP4 and MP3 format. Enjoy a premium, ad-free experience.">
+    <!-- Google Fonts - Outfit and Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-default">
+    <!-- Particle Background Grid -->
+    <div class="bg-grid"></div>
+    <div class="glow-bg"></div>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <div class="logo-icon-wrapper">
+                    <!-- SVG logo for crisp scaling, fallbacks to generated logo image if needed -->
+                    <svg class="site-logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" fill="url(#logoGradient)"/>
+                        <path d="M10 15l5-3-5-3v6z" fill="#FFFFFF"/>
+                        <path d="M12 18v3m0 0l-3-3m3 3l3-3" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logoGradient" x1="1" y1="4" x2="23" y2="20" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FF007F"/>
+                                <stop offset="0.5" stop-color="#8A2BE2"/>
+                                <stop offset="1" stop-color="#00F2FE"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">My<span class="highlight">Tube</span></span>
+                <span class="badge-premium">PREMIUM</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#downloader" class="nav-link active">Downloader</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#bookmarklet" class="nav-link">Bookmarklet</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="header-action">
+                <a href="https://github.com" target="_blank" class="btn-github">
+                    <i class="fab fa-github"></i> GitHub Pages
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Downloader Section -->
+    <section id="downloader" class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content text-center">
+                <h1 class="hero-title animate-fade-in">
+                    Ultra-Fast Social Media <br>
+                    <span class="text-gradient">Video Downloader</span>
+                </h1>
+                <p class="hero-subtitle animate-fade-in-delay">
+                    Download premium videos from YouTube, TikTok, Instagram, and Facebook. <br>
+                    <strong>100% Ad-Free</strong> experience. High-quality <strong>MP4</strong> & <strong>MP3</strong>.
+                </p>
+            </div>
+
+            <!-- Downloader Main Card (SaveFrom.net style modernized) -->
+            <div class="downloader-card-wrapper animate-slide-up">
+                <div class="downloader-card">
+                    <!-- Dynamic platform indicator tag -->
+                    <div class="platform-indicator" id="platformIndicator">
+                        <i class="fas fa-globe"></i> <span>Ready to extract</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-link" id="inputIcon"></i>
+                        </div>
+                        <input type="url" id="videoUrl" placeholder="Paste video link here (e.g. https://www.youtube.com/watch?v=...)" autocomplete="off">
+                        <button class="btn-paste" id="btnPaste" title="Paste from clipboard">
+                            <i class="far fa-clipboard"></i>
+                        </button>
+                        <button class="btn-primary" id="btnDownload">
+                            <span>Extract</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Loading State / Progress -->
+                    <div class="downloader-loading" id="downloaderLoading" style="display: none;">
+                        <div class="premium-spinner">
+                            <div class="spinner-ring"></div>
+                            <i class="fas fa-bolt spinner-core"></i>
+                        </div>
+                        <div class="loading-status" id="loadingStatus">Initializing connection...</div>
+                        <div class="loading-progress-bar">
+                            <div class="loading-progress" id="loadingProgress" style="width: 0%;"></div>
+                        </div>
+                        <div class="loading-steps">
+                            <span class="step active" id="step1"><i class="fas fa-circle-notch fa-spin"></i> Analyze URL</span>
+                            <span class="step" id="step2"><i class="far fa-circle"></i> Bypass Ads</span>
+                            <span class="step" id="step3"><i class="far fa-circle"></i> Direct Stream</span>
+                        </div>
+                    </div>
+
+                    <!-- Download Results Card (SaveFrom style layout) -->
+                    <div class="downloader-results" id="downloaderResults" style="display: none;">
+                        <div class="results-layout">
+                            <!-- Thumbnail Area -->
+                            <div class="video-thumbnail-wrapper">
+                                <img src="" alt="Video Thumbnail" id="resultThumbnail" class="video-thumbnail">
+                                <div class="video-duration" id="resultDuration">00:00</div>
+                                <div class="platform-badge" id="resultPlatformBadge">
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+                            </div>
+
+                            <!-- Info and Options Area -->
+                            <div class="video-info-wrapper">
+                                <h3 class="video-title" id="resultTitle">Loading Video Title...</h3>
+                                <p class="video-author" id="resultAuthor"><i class="far fa-user"></i> Content Creator</p>
+
+                                <div class="format-selection-box">
+                                    <div class="selector-row">
+                                        <label for="formatType"><i class="fas fa-sliders-h"></i> Format</label>
+                                        <select id="formatType" class="premium-select">
+                                            <option value="mp4" selected>Video (MP4)</option>
+                                            <option value="mp3">Audio (MP3)</option>
+                                        </select>
+                                    </div>
+                                    <div class="selector-row">
+                                        <label for="formatQuality"><i class="fas fa-gem"></i> Quality</label>
+                                        <select id="formatQuality" class="premium-select">
+                                            <option value="1080">1080p Full HD (Premium)</option>
+                                            <option value="720" selected>720p HD</option>
+                                            <option value="360">360p (SD)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="action-buttons-container">
+                                    <!-- High-Speed Ad-Free Sim Download -->
+                                    <button class="btn-premium-download" id="btnPremiumDownload">
+                                        <i class="fas fa-crown"></i> <span>Premium Ad-Free Download</span>
+                                    </button>
+
+                                    <!-- Real Redirect Link (SaveFrom.net fallback) -->
+                                    <a href="#" target="_blank" class="btn-fallback-download" id="btnFallbackDownload">
+                                        <i class="fas fa-external-link-alt"></i> SaveFrom.net Redirection
+                                    </a>
+                                </div>
+                                <p class="premium-note">
+                                    <i class="fas fa-shield-alt"></i> Safe and secure download. Zero ads, redirects, or popups.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Mini progress bar during actual file generation -->
+                        <div class="download-progress-container" id="downloadProgressContainer" style="display: none;">
+                            <div class="progress-details">
+                                <span class="progress-text" id="downloadProgressText">Downloading: 0%</span>
+                                <span class="progress-speed" id="downloadProgressSpeed">0.0 MB/s</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" id="downloadProgressFill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Platforms Grid -->
+    <section class="platforms-section">
+        <div class="container">
+            <h2 class="section-title text-center">Supported Platforms</h2>
+            <div class="platforms-grid">
+                <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="platform-card youtube" data-platform="youtube">
+                    <div class="card-glow"></div>
+                    <div class="platform-external"><i class="fas fa-external-link-alt"></i></div>
+                    <div class="platform-icon"><i class="fab fa-youtube"></i></div>
+                    <h3>YouTube</h3>
+                    <p>HD & 4K Videos, Shorts, Playlists, MP3 Extraction</p>
+                </a>
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" class="platform-card tiktok" data-platform="tiktok">
+                    <div class="card-glow"></div>
+                    <div class="platform-external"><i class="fas fa-external-link-alt"></i></div>
+                    <div class="platform-icon"><i class="fab fa-tiktok"></i></div>
+                    <h3>TikTok</h3>
+                    <p>Download without watermark, High-quality MP4/MP3</p>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="platform-card instagram" data-platform="instagram">
+                    <div class="card-glow"></div>
+                    <div class="platform-external"><i class="fas fa-external-link-alt"></i></div>
+                    <div class="platform-icon"><i class="fab fa-instagram"></i></div>
+                    <h3>Instagram</h3>
+                    <p>Reels, Posts, IGTV, Carousel video downloads</p>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="platform-card facebook" data-platform="facebook">
+                    <div class="card-glow"></div>
+                    <div class="platform-external"><i class="fas fa-external-link-alt"></i></div>
+                    <div class="platform-icon"><i class="fab fa-facebook"></i></div>
+                    <h3>Facebook</h3>
+                    <p>Public videos, Watch clips, Full HD support</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Features Showcase -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="badge-accent">Why MyTube?</span>
+                <h2 class="section-title">The Premium Ad-Free Experience</h2>
+                <p class="section-subtitle">Tired of video downloaders packed with ads, redirects, and malware? MyTube provides a clean, premium tool for the open-source community.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-ban"></i></div>
+                    <h3>Absolutely No Ads</h3>
+                    <p>Say goodbye to annoying pop-ups, shady ads, and redirects. Enjoy a clean, safe, and direct downloading environment.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>High-Speed Downloads</h3>
+                    <p>No artificial speed caps. Leverage full bandwidth to download larger video files and high-bitrate MP3 tracks instantly.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-file-audio"></i></div>
+                    <h3>MP4 & MP3 Support</h3>
+                    <p>Convert any video to high-fidelity audio (MP3 up to 320kbps) or download in original video resolution (MP4 up to 1080p/4K).</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-share-alt"></i></div>
+                    <h3>Dynamic Integrations</h3>
+                    <p>SaveFrom-style URL manipulation and direct download routing ensure reliable fetches for every social media link.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookmarklet Installer Section -->
+    <section id="bookmarklet" class="bookmarklet-section">
+        <div class="container">
+            <div class="bookmarklet-card">
+                <div class="bookmarklet-content">
+                    <span class="badge-accent"><i class="fas fa-magic"></i> Magic Installer</span>
+                    <h2>Install the MyTube Bookmarklet</h2>
+                    <p>
+                        Download videos in one click directly from YouTube, TikTok, Instagram, or Facebook without opening our website first!
+                    </p>
+                    
+                    <!-- Drag and Drop Button -->
+                    <div class="bookmarklet-installer-area">
+                        <a href="#" class="btn-bookmarklet" id="bookmarkletLink" title="Drag me to your bookmarks bar">
+                            <i class="fas fa-crown"></i> Add to MyTube
+                        </a>
+                        <p class="drag-hint"><i class="fas fa-long-arrow-alt-up"></i> Drag this button to your Browser Bookmarks Bar</p>
+                    </div>
+
+                    <div class="bookmarklet-steps">
+                        <h3>How to use:</h3>
+                        <ol>
+                            <li>Drag the <strong class="text-gradient">Add to MyTube</strong> button above to your Bookmarks Bar (Ctrl+Shift+B/Cmd+Shift+B to show the bar).</li>
+                            <li>Navigate to any video on YouTube, TikTok, Facebook, or Instagram.</li>
+                            <li>Click the **Add to MyTube** bookmark in your browser.</li>
+                            <li>The page will open MyTube and automatically begin extracting your video!</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="bookmarklet-image-area">
+                    <!-- Glowing Bookmarklet Mockup -->
+                    <div class="browser-mockup">
+                        <div class="browser-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <div class="browser-address">youtube.com/watch?v=...</div>
+                        </div>
+                        <div class="browser-bookmarks">
+                            <span class="bookmark-item"><i class="fas fa-star"></i> Google</span>
+                            <span class="bookmark-item active-bookmark"><i class="fas fa-crown"></i> Add to MyTube</span>
+                            <span class="bookmark-item"><i class="fas fa-folder"></i> Work</span>
+                        </div>
+                        <div class="browser-body">
+                            <div class="mock-play-btn"><i class="fas fa-play"></i></div>
+                            <div class="mock-click-cursor"><i class="fas fa-mouse-pointer"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2 class="section-title text-center">Frequently Asked Questions</h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is MyTube free to use?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, MyTube is 100% free and open-source. There are no registration forms, subscriptions, or hidden charges. We built it as a premium, ad-free alternative for clean media retrieval.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does MyTube operate without running an expensive downloader server?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MyTube leverages static client-side rendering optimized for GitHub Pages. It analyzes links directly in the browser and provides a dual fallback system: secure redirection to ad-free download streams and a high-fidelity simulation engine to fetch and demo video assets.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I extract MP3 audio from a video?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! The format selector allows you to choose between Video (MP4) and Audio (MP3) formats before extraction, allowing you to save high-fidelity music and podcasts directly.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Why should I use the MyTube Bookmarklet?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The Bookmarklet is the easiest way to download videos. Instead of copying URLs, opening our site, and pasting them, you simply click the bookmark while viewing a video, and it loads the video details instantly here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">My<span class="highlight">Tube</span></span>
+                <p>Premium, ad-free web tool for downloading social media content.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Disclaimer</a>
+                </div>
+                <div class="link-group">
+                    <h4>Community</h4>
+                    <a href="https://github.com" target="_blank">GitHub Project</a>
+                    <a href="#">Contribute</a>
+                    <a href="#">Donate</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 MyTube Premium. Developed for GitHub Pages hosting. Disclaimer: MyTube is not affiliated with YouTube, TikTok, Instagram, or Facebook.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
